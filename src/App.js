@@ -7,12 +7,14 @@ class App extends React.Component
 
   state = {
     messages: [],
-    message: ""
+    message: "",
+    overTwenty: 0,
+    underTwenty: 0
   }
 
 
 
-  firstInput = (e) => {
+  messageInput = (e) => {
     const messageInput = e.target.value;
     this.setState({
       message: messageInput
@@ -26,15 +28,23 @@ class App extends React.Component
       message: this.state.message
     }
     this.state.messages.push(newMessage);
+    (this.state.message.length)>20? this.setState({
+          overTwenty: this.state.overTwenty+1
+        }) : this.setState({
+      underTwenty: this.state.underTwenty+1
+    })
     this.setState({
       message: ""
     })
+
   }
 
 
-  clearTable = () => {
+  clearList = () => {
     this.setState({
-      massages: []
+      messages: [],
+      overTwenty: 0,
+      underTwenty:0
     })
   }
 
@@ -46,8 +56,10 @@ class App extends React.Component
   render() {
     return(
         <div>
-          <input placeholder = "Enter A Massage:" value={this.state.message} onChange={this.firstInput}/>
-          <button onClick={this.addMessage} disabled={this.state.message === "" }>Add massage</button>
+          {this.state.messages.length > 0 ?
+                <h2> Number of messages: {this.state.messages.length} </h2> : <h2> No messages </h2>}
+          <input placeholder = "Enter A Massage:" value={this.state.message} onChange={this.messageInput}/>
+          <button onClick={this.addMessage} disabled={this.state.message === "" }>Add message</button>
           <ol>
             {
                 this.state.messages.length > 0 &&
@@ -58,10 +70,9 @@ class App extends React.Component
                 })
             }
           </ol>
-          <h6>{this.state.messages.length === 0 ? "No massages" : "number of messages: " + this.messages.length}</h6>
-
-          <button disabled={this.state.messages.length === 0} onClick={this.clearTable}>Clear</button>
-
+          <button disabled={this.state.messages.length === 0} onClick={this.clearList}>Clear</button>
+          <h2>under or equal to 20: {this.state.underTwenty}</h2>
+          <h2>Over 20: {this.state.overTwenty}</h2>
 
         </div>
 
