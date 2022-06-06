@@ -20,16 +20,14 @@ class App extends React.Component
   }
 
 
-  addMassage = () => {
-
-    let newMassage;
-
-    newMassage = this.state.message;
-
-
-    this.state.messages.push(newMassage)
+  addMessage = () => {
+    let newMessage;
+    newMessage = {
+      message: this.state.message
+    }
+    this.state.messages.push(newMessage);
     this.setState({
-      massage: "",
+      message: ""
     })
   }
 
@@ -49,19 +47,17 @@ class App extends React.Component
     return(
         <div>
           <input placeholder = "Enter A Massage:" value={this.state.message} onChange={this.firstInput}/>
-          <button onClick={this.addMassage} disabled={this.state.message === "" }>Add massage</button>
-          <table>
+          <button onClick={this.addMessage} disabled={this.state.message === "" }>Add massage</button>
+          <ol>
             {
                 this.state.messages.length > 0 &&
-                this.state.messages.map((item, i) => {
-                  return (
-                      <tr key = {i} onClick={this.deleteOne.bind(this, i)}>
-                        <td>{item.massage}</td>
-                      </tr>
+                this.state.messages.map((item) =>{
+                  return(
+                      <li> {item.message} </li>
                   )
                 })
             }
-          </table>
+          </ol>
           <h6>{this.state.messages.length === 0 ? "No massages" : "number of messages: " + this.messages.length}</h6>
 
           <button disabled={this.state.messages.length === 0} onClick={this.clearTable}>Clear</button>
